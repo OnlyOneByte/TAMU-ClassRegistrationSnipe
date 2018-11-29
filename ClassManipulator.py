@@ -75,9 +75,9 @@ class Classer:
 
             except Exception as e:
                 print(e)
+                traceback.print_exc
                 print("Failed to login. Trying again...")
                 pass
-
 
     #
     # Get all relevant data for a course. Used in initialization
@@ -114,7 +114,7 @@ class Classer:
                 iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
                 self.browser.switch_to.frame(iframe)
 
-                time.sleep(self.timeBetweenAction)
+                time.sleep(2*self.timeBetweenAction)
 
                 # Navigates to search function
                 self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
@@ -148,7 +148,6 @@ class Classer:
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
 
                         if not searchAll and sectionNum.text in sections:
-                            print("APPENDED")
                             openSpots.append(int(tableRows[i].find_elements_by_tag_name("td")[12].text))
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
 
@@ -157,7 +156,7 @@ class Classer:
             except Exception as e:
                 print(e)
                 traceback.print_exc
-                # print("Something went wrong searching for the class. Trying again.")
+                print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
 
         if not searchAll:

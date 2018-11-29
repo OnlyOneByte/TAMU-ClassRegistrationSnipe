@@ -4,7 +4,7 @@ from ConfigReader import ConfigReader
 import time
 
 # Opens configuration file
-configs = ConfigReader("config.ini")
+configs = ConfigReader("config_angelo.ini")
 
 # Opens the browser
 classBrowser = Classer(configs.user, configs.password)
@@ -13,8 +13,6 @@ classes = configs.classes
 
 # Initialization step.
 for classItem in classes:
-    print(classItem.subjectAbbr)
-
     # Initializing CRNs
     if(classItem.sectionNumbers[0] == "ALL"):
         crns, courses, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
@@ -26,6 +24,8 @@ for classItem in classes:
         classItem.setSectionNums(crsNums)   # Might have been reordered
         classItem.setCRNs(crns)
         classItem.setRemainingSpots(openSpots)
+
+print("INITIALIZED!")
     
 
 
@@ -42,6 +42,8 @@ runs = 0
 while(True):
 
     for classItem in classes:
+        print("Checking: " + classItem.subjectAbbr, classItem.courseNumber)
+
         spots = classBrowser.checkSpots(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
         classItem.setRemainingSpots(spots)
         message = classItem.checkOpenSpots()
