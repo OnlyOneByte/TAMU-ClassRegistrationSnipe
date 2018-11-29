@@ -298,8 +298,7 @@ class Classer:
     """
     This drops a class in order to replace it with a new one.
 
-    dropCourseAbbr: Course abbreviation of course to drop
-    dropCourseNum: Course number of the course to drop
+    cropCourseCRN: the CRN of the course to drop
     addCourseCRN: the CRN of the course to add.
 
     returns 0 if successful
@@ -384,6 +383,60 @@ class Classer:
 
         return 0
 
+
+
+    """
+    This just adds a class given its CRN
+
+    addCourseCRN: the CRN of the course to add.
+
+    returns 0 if successful
+    returns -1 if failed.
+
+    """
+    def addClass(self, addCourseCRN):
+        # This is to see if its done.
+        finished = False
+
+        while (not finished):
+            try:    
+                self.browser.get(self.homeScreen)
+
+                # Opens registration window.
+                self.browser.find_element_by_xpath(self.elems['regClass']).click()
+                time.sleep(self.timeBetweenAction)
+
+                # Switches to the miniframe that TAMU uses on this page.
+                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                self.browser.switch_to.frame(iframe)
+
+                # Clicks the submit button to access the courses.
+                self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+
+                # Adds CRN 
+                self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(addCourseCRN)
+                self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+
+                # Double checks to see if course was added.
+                tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                for i in range(1,len(tableRows)):
+                    rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
+                    if(addCourseCRN == rowCRN):
+                        print("Failed! Check your scheduling/holds!")
+                        return -1
+
+                # Got to add/drop place
+                finished = True
+
+            except Exception as e:
+                self.errorHandler(e)
+                print("An error happened when sniping spots. Retrying.")
+
+        return 0
 
     """
     This function sends an email to the user notifying them of openings in classes that they want
