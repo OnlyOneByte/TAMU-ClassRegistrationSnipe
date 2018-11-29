@@ -42,6 +42,9 @@ class Classer:
         self.errorsTotal = 0    # Total errors so far
         self.errorsReset = 100  # Errors before total reset.
 
+        # Homescreeen once logged in.
+        self.homeScreen = "https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP"
+
 
         # First, login. 
         self.login()
@@ -54,7 +57,7 @@ class Classer:
     def reset(self):
         # Opens browser link
         time.sleep(30)
-        self.browser.get("https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP")
+        self.browser.get(self.homeScreen)
         time.sleep(30)
         self.errorsTotal = 0    # Resets error count
         self.login()
@@ -72,7 +75,7 @@ class Classer:
         traceback.print_exc
     
     """
-    This program navigates through the howdy login system. Requires user-input for the 2fa.
+    This function navigates through the howdy login system. Requires user-input for the 2fa.
     """
     def login(self):
         while (not self.loggedIn and not self.twofa):
@@ -124,9 +127,14 @@ class Classer:
                 print("Failed to login. Trying again...")
                 pass
 
-    #
-    # Get all relevant data for a course. Used in initialization
-    #
+    """
+    This program navigates to course search and grabs all relevant data about courses the user
+    indicated they have an interest in.
+    
+    subAbbr: string. The class abbreviation (CHEM, MATH, ENGR, PHYS, etc)
+    courseNumber: string. The # of the course (CHEM 117, course number would be 117)
+    sections: [strings] - all the sections that you want to check
+    """
     def getData(self, subAbbr, courseNumber, sections=None):
         if(sections==None):
             sections = []
@@ -145,12 +153,9 @@ class Classer:
         # This is to see if its done.
         checkedClasses = False
 
-        # Opens the home screens
-        homeScreen = "https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP"
-
         while (not checkedClasses):
             try:    
-                self.browser.get(homeScreen)
+                self.browser.get(self.homeScreen)
                 time.sleep(self.timeBetweenAction)
                 # Opens registration window.
                 self.browser.find_element_by_xpath(self.elems['regClass']).click()
@@ -213,7 +218,14 @@ class Classer:
         return crns, sections, openSpots
 
 
-    # returns lists of crns and courses.
+    """
+    This function checks to see if the sections specified of a specific course have any openings.
+    returns a list of openings that match in index with the sections array passed in.
+
+    subAbbr: string. The class abbreviation (CHEM, MATH, ENGR, PHYS, etc)
+    courseNumber: string. The # of the course (CHEM 117, course number would be 117)
+    sections: [strings] - all the sections that you want to check
+    """
     def checkSpots(self, subAbbr, courseNumber, sections):
         openSpots = []
 
@@ -226,7 +238,7 @@ class Classer:
 
         while (not checkedClasses):
             try:    
-                self.browser.get(homeScreen)
+                self.browser.get(self.homeScreen)
 
                 # Opens registration window.
                 self.browser.find_element_by_xpath(self.elems['regClass']).click()
