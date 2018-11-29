@@ -1,2 +1,3 @@
 config_angelo.ini
 debug.log
+__pycache__/
