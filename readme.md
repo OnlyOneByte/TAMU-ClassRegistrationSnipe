@@ -5,16 +5,24 @@ yeeeeeee hawwwwwwww
 
 # The INI file is laid out as follows.
 line 1: username to howdy
+
 line 2: password to howdy
+
 line 3: email from which the email will BE SENT. I recommend creating a throwaway email for this purpose.
+
 line 4: email password.
+
 line 5: email of recipient. So you.
+
 line 6: polling timeout. The timeout between consecutive passes.
+
 line 7: ignored. Nothing here
 
 All lines for classes are PAIRED.
 You can add as many classes as you want.
+
 line N: Class abbreviation,class number. (IE CHEM,117)
+
 line N+1: Either all section numbers that you like, or ALL to check all.
 
 
