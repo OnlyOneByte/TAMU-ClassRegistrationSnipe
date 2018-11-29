@@ -6,16 +6,14 @@ import traceback
 from selenium import webdriver
 from tkinter import messagebox
 
-# TODO: Auto check for too many failures and immediately restart.
 # TODO: Create a system to automatically add/register for a class.
 # TODO: Logged out checker
-# TODO: better 2fa system.
 
 class Classer:
 
     def __init__(self, username, password):
 
-        self.timeBetweenAction=0.1
+        self.timeBetweenAction=0.5
 
         # Xpaths to a bunch of things I need to navigate around.
         self.elems = {'howdyHome': "//*[@id='loginbtn']",
@@ -41,18 +39,47 @@ class Classer:
         self.loggedIn = False
         self.twofa = False       
 
+        self.errorsTotal = 0    # Total errors so far
+        self.errorsReset = 100  # Errors before total reset.
 
 
         # First, login. 
         self.login()
 
+
+    """
+    If the program ends up in some kind of exception loop, this program here is what should get it out of it.
+    It waits for a page to definitely finish loading, then continues on its merry way
+    """
+    def reset(self):
+        # Opens browser link
+        time.sleep(30)
+        self.browser.get("https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP")
+        time.sleep(30)
+        self.errorsTotal = 0    # Resets error count
+        self.login()
+
+    """
+    This is just put at the end of every single except loop to show any errors that may have occured.
+    TODO: Add logging.
+    """
+    def errorHandler(self, e):
+        self.errorsTotal+=1
+        print("Total Errors:", str(self.errorsTotal))
+        if(self.errorsTotal > self.errorsReset):
+            self.reset()
+        print(e)
+        traceback.print_exc
     
-    # Should end at home page.
+    """
+    This program navigates through the howdy login system. Requires user-input for the 2fa.
+    """
     def login(self):
         while (not self.loggedIn and not self.twofa):
             try:
                 # Opens browser link
                 self.browser.get("https://howdy.tamu.edu")
+                time.sleep(self.timeBetweenAction)
 
                 # Login sequence
                 self.browser.find_element_by_xpath(self.elems['howdyHome']).click()
@@ -62,13 +89,26 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
                 self.browser.find_element_by_xpath(self.elems['passwordBox']).send_keys(self.passwd)
                 self.browser.find_element_by_xpath(self.elems['nextButton']).click()
-                time.sleep(self.timeBetweenAction)
+                
+                # The 2fa module takes a bit to load. Give it extra time.
+                time.sleep(6*self.timeBetweenAction)
 
                 # 2FA sequence
                 try:
-                    self.browser.find_element_by_xpath(self.elems["2fa"])
-                    # TODO automate the 2fa process more
-                    messagebox.showinfo(title='2-step verification', message='Finish on screen 2-step verification, and then click OK.')
+                    duoFrame = self.browser.find_element_by_xpath(self.elems["2fa"])
+                    usePush = True
+                    if(usePush):
+                        self.browser.switch_to.frame(duoFrame)
+                        self.browser.find_element_by_xpath("/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button").click()
+                        # While not yet past 2fa page
+                        while(len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0):
+                            time.sleep(1)
+
+
+                    else:
+                        # Legacy method.
+                        messagebox.showinfo(title='2-step verification', message='Finish on screen 2-step verification, and then click OK.')
+                    
                     self.twofa = True
                 except:
                     # TODO better bad pass and user check
@@ -80,8 +120,7 @@ class Classer:
                 self.loggedIn = True
 
             except Exception as e:
-                print(e)
-                traceback.print_exc
+                self.errorHandler(e)
                 print("Failed to login. Trying again...")
                 pass
 
@@ -160,8 +199,7 @@ class Classer:
                 
                 checkedClasses = True
             except Exception as e:
-                print(e)
-                traceback.print_exc
+                self.errorHandler(e)
                 print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
 
@@ -231,7 +269,7 @@ class Classer:
                 
                 checkedClasses = True
             except Exception as e:
-                print(e)
+                self.errorHandler(e)
                 print("An error happened when refreshing open spots. Retrying.")
 
         return openSpots
