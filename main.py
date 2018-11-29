@@ -2,10 +2,9 @@ from ClassObj import TAMUClass
 from ClassManipulator import Classer
 from ConfigReader import ConfigReader
 import time
-import sys
 
 # Opens configuration file
-configs = ConfigReader("config_angelo.ini")
+configs = ConfigReader("config.ini")
 # Make sure to change this to whatever your cofig file is
 
 
