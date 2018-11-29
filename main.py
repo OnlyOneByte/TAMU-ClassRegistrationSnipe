@@ -17,19 +17,12 @@ for classItem in classes:
 
     # Initializing CRNs
     if(classItem.sectionNumbers[0] == "ALL"):
-        crns, courses, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)
-        
-        # print(crns, courses, openSpots)
-        # print(len(crns), len(courses), len(openSpots))
-        
+        crns, courses, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
         classItem.setSectionNums(courses)
         classItem.setCRNs(crns)
         classItem.setRemainingSpots(openSpots)
     else:
         crns, crsNums, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
-        
-        # print(crns, crsNums, openSpots)
-
         classItem.setSectionNums(crsNums)   # Might have been reordered
         classItem.setCRNs(crns)
         classItem.setRemainingSpots(openSpots)

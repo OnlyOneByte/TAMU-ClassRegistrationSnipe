@@ -11,6 +11,8 @@ class Classer:
 
     def __init__(self, username, password):
 
+        self.timeBetweenAction=0.1
+
         # Xpaths to a bunch of things I need to navigate around.
         self.elems = {'howdyHome': "//*[@id='loginbtn']",
             'usernameBox': "//*[@id='username']",
@@ -48,17 +50,19 @@ class Classer:
 
                 # Login sequence
                 self.browser.find_element_by_xpath(self.elems['howdyHome']).click()
+                time.sleep(self.timeBetweenAction)
                 self.browser.find_element_by_xpath(self.elems['usernameBox']).send_keys(self.user)
                 self.browser.find_element_by_xpath(self.elems['nextButton']).click()
+                time.sleep(self.timeBetweenAction)
                 self.browser.find_element_by_xpath(self.elems['passwordBox']).send_keys(self.passwd)
-                self.browser.find_element_by_xpath(self.elems['nextButton']).click()   
+                self.browser.find_element_by_xpath(self.elems['nextButton']).click()
+                time.sleep(self.timeBetweenAction)
 
                 # 2FA sequence
                 try:
                     self.browser.find_element_by_xpath(self.elems["2fa"])
                     # TODO automate the 2fa process more
                     messagebox.showinfo(title='2-step verification', message='Finish on screen 2-step verification, and then click OK.')
-
                     self.twofa = True
                 except:
                     # TODO better bad pass and user check
@@ -69,7 +73,8 @@ class Classer:
                 # Toggles the logged in state to true.
                 self.loggedIn = True
 
-            except:
+            except Exception as e:
+                print(e)
                 print("Failed to login. Trying again...")
                 pass
 
@@ -101,7 +106,7 @@ class Classer:
         while (not checkedClasses):
             try:    
                 self.browser.get(homeScreen)
-                time.sleep(2)
+                time.sleep(self.timeBetweenAction)
                 # Opens registration window.
                 self.browser.find_element_by_xpath(self.elems['regClass']).click()
 
@@ -109,21 +114,25 @@ class Classer:
                 iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
                 self.browser.switch_to.frame(iframe)
 
+                time.sleep(self.timeBetweenAction)
 
                 # Navigates to search function
                 self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
                 self.browser.find_element_by_xpath(self.elems['classSearch']).click()
+                time.sleep(self.timeBetweenAction)
+
                 self.browser.find_element_by_xpath(self.elems['advancedSearch']).click()
+                time.sleep(self.timeBetweenAction)
 
                 # Search function using thing.
                 subjectAbbr = "/html/body/div[3]/form/table[1]/tbody/tr/td[2]/select/option[@value='"+ subAbbr+"']"
                 self.browser.find_element_by_xpath(subjectAbbr).click()
-
                 self.browser.find_element_by_xpath(self.elems['courseNumberBox']).send_keys(courseNumber)
-                time.sleep(0.5)
                 self.browser.find_element_by_xpath(self.elems['sectionSearch']).click()
                 # At this point should have reached the course list
-                time.sleep(0.5)
+                time.sleep(self.timeBetweenAction)
 
                 # rows of rable
                 tableRows = self.browser.find_elements_by_xpath("/html/body/div[3]/form/table/tbody/tr")
@@ -178,6 +187,7 @@ class Classer:
 
                 # Opens registration window.
                 self.browser.find_element_by_xpath(self.elems['regClass']).click()
+                time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
                 iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
@@ -186,15 +196,18 @@ class Classer:
 
                 # Navigates to search function
                 self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                time.sleep(self.timeBetweenAction)
                 self.browser.find_element_by_xpath(self.elems['classSearch']).click()
+                time.sleep(self.timeBetweenAction)
                 self.browser.find_element_by_xpath(self.elems['advancedSearch']).click()
+                time.sleep(self.timeBetweenAction)
 
                 # Search function using thing.
                 subjectAbbr = "/html/body/div[3]/form/table[1]/tbody/tr/td[2]/select/option[@value='"+ subAbbr+"']"
                 self.browser.find_element_by_xpath(subjectAbbr).click()
-
                 self.browser.find_element_by_xpath(self.elems['courseNumberBox']).send_keys(courseNumber)
                 self.browser.find_element_by_xpath(self.elems['sectionSearch']).click()
+                time.sleep(self.timeBetweenAction)
                 
                 # At this point should have reached the course list
 
