@@ -1,6 +1,7 @@
 # Check the config.ini file to see how to use it.
-# Must have selenium and chrome webdriver to use.
-# would also recommend Anaconda. Python 3.
+# Must have selenium and chrome webdriver to use would also recommend Anaconda. Python 3.
+
+yeeeeeee hawwwwwwww
 
 # The INI file is laid out as follows.
 line 1: username to howdy
