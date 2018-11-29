@@ -6,26 +6,32 @@ last officially confirmed working 2018-11-29.
 I'll maintain this for as long as I'm a student at TAMU and I have to use their godforsaken registration system.
 
 # The INI file is laid out as follows.
-line 1: username to howdy
-
-line 2: password to howdy
-
-line 3: email from which the email will BE SENT. I recommend creating a throwaway email for this purpose.
-
-line 4: email password.
-
-line 5: email of recipient. So you.
-
-line 6: polling timeout. The timeout between consecutive passes.
-
-line 7: ignored. Nothing here
+line 1: username to howdy\
+line 2: password to howdy\
+line 3: email from which the email will BE SENT. I recommend creating a throwaway email for this purpose.\
+line 4: email password.\
+line 5: email of recipient. So your email, or whatever email you check often.\
+line 6: polling timeout. The timeout between consecutive passes.\
+line 7: ignored. Nothing here\
 
 All lines for classes are PAIRED.
 You can add as many classes as you want.
 
-line N: Class abbreviation,class number. (IE CHEM,117)
+For the first line, include the class subject abbreviation and the class number.\
+If you have a class that you have to drop in order to pick this up, include the CRN of the class you need to drop after\
+>MATH,152,18893
+^ The above means that I want a math 152 class, but I have to drop class CRN 18893 in order to get one\
+>Math,152
+^ That just means either: Don't auto add classes, or no need to drop before adding\
 
-line N+1: Either all section numbers that you like, or ALL to check all.
+For the second line, its just a list of all the section numbers that you woudl want, seperated with spaces\
+>102 103 105 109
+Or, if you just want to check every section, put ALL\
+>ALL
+If theres a section that you would want the auto add to work on, simply put a start after it.\
+>102 103 105* 109
+^ That just means that if 105 was availible, auto register me please. If none are selected, no auto-registration will happen.
+
 
 
 
