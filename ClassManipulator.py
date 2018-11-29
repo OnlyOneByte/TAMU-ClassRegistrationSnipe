@@ -6,6 +6,10 @@ import traceback
 from selenium import webdriver
 from tkinter import messagebox
 
+# TODO: Auto check for too many failures and immediately restart.
+# TODO: Create a system to automatically add/register for a class.
+# TODO: Logged out checker
+# TODO: better 2fa system.
 
 class Classer:
 
@@ -34,8 +38,10 @@ class Classer:
         self.user = username
         self.passwd = password
 
-        self.loggedIn = False  # TODO add logged out checker
-        self.twofa = False       # TODO 2fa
+        self.loggedIn = False
+        self.twofa = False       
+
+
 
         # First, login. 
         self.login()
