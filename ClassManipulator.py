@@ -8,6 +8,7 @@ from tkinter import messagebox
 
 # TODO: Create a system to automatically add/register for a class.
 # TODO: Logged out checker
+# TODO: No email spam.
 
 class Classer:
 
@@ -15,7 +16,8 @@ class Classer:
 
         self.timeBetweenAction=0.5
 
-        # Xpaths to a bunch of things I need to navigate around.
+        # xPaths to a bunch of things I need to navigate around.
+        # They are here so I can easily edit them in case howdy changes.
         self.elems = {'howdyHome': "//*[@id='loginbtn']",
             'usernameBox': "//*[@id='username']",
             'passwordBox': "//*[@id='password']",
@@ -28,15 +30,16 @@ class Classer:
             'classSearch': "/html/body/div[3]/form/input[20]",
             'advancedSearch': "/html/body/div[3]/form[2]/span/input",
             '2fa': "//iframe[@id='duo_iframe']",
-            '2faButton': "//*[@class='icon-smartphone-check']",
+            '2faButton': "/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button",
             'courseNumberBox': "//*[@id='crse_id']",
             'sectionSearch' : "//*[@id='advCourseBtnDiv']/input"
         }
+
         self.browser = webdriver.Chrome(r"C:/Users/Angelo/Desktop/chromedriver.exe")
         self.user = username
         self.passwd = password
 
-        self.loggedIn = False
+        self.loggedIn = False   
         self.twofa = False       
 
         self.errorsTotal = 0    # Total errors so far
@@ -102,7 +105,7 @@ class Classer:
                     usePush = True
                     if(usePush):
                         self.browser.switch_to.frame(duoFrame)
-                        self.browser.find_element_by_xpath("/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button").click()
+                        self.browser.find_element_by_xpath(self.elems["2faButton"]).click()
                         # While not yet past 2fa page
                         while(len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0):
                             time.sleep(1)
@@ -284,7 +287,13 @@ class Classer:
         return openSpots
 
 
-    # TODO: List all availible classes for one thign.
+    """
+    This function sends an email to the user notifying them of openings in classes that they want
+    message: string of message generated.
+    emailTo: string email of recipient
+    emailFrom: string email of sender
+    emailPassword: string sender's password
+    """
     def emailNotif(self, message, emailTo, emailFrom, emailPassword):
         # Emails you about the new spot
         server = smtplib.SMTP('smtp.gmail.com:587')
