@@ -16,6 +16,7 @@ classes = configs.classes
 
 # Initialization step.
 for classItem in classes:
+    print("Initializing: " + classItem.subjectAbbr, classItem.courseNumber)
     # Initializing CRNs
     if(classItem.sectionNumbers[0] == "ALL"):
         crns, courses, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
