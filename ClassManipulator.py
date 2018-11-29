@@ -130,7 +130,7 @@ class Classer:
     """
     This program navigates to course search and grabs all relevant data about courses the user
     indicated they have an interest in.
-    
+
     subAbbr: string. The class abbreviation (CHEM, MATH, ENGR, PHYS, etc)
     courseNumber: string. The # of the course (CHEM 117, course number would be 117)
     sections: [strings] - all the sections that you want to check
@@ -232,9 +232,6 @@ class Classer:
 
         # This is to see if its done.
         checkedClasses = False
-
-        # Opens the home screen
-        homeScreen = "https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP"
 
         while (not checkedClasses):
             try:    
