@@ -15,11 +15,6 @@ classBrowser = Classer(configs.user, configs.password)
 # Gets classes from the config reader
 classes = configs.classes
 
-# classBrowser.dropThenAddClass("18043","17859")
-classBrowser.dropThenAddClass("17859","1804")
-
-sys.exit(0)
-
 # Initialization step.
 for classItem in classes:
     # Initializing CRNs
