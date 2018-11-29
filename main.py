@@ -2,6 +2,7 @@ from ClassObj import TAMUClass
 from ClassManipulator import Classer
 from ConfigReader import ConfigReader
 import time
+import py2exe
 
 # Opens configuration file
 configs = ConfigReader("config_angelo.ini")
@@ -56,6 +57,3 @@ while(True):
     print("Completed " + str(runs) + " runs!")
     # sleep configured in config.ini
     time.sleep(configs.pollingRate) 
-    
-
-
