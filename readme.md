@@ -25,11 +25,11 @@ If you have a class that you have to drop in order to pick this up, include the 
 ^ That just means either: Don't auto add classes, or no need to drop before adding
 
 For the second line, its just a list of all the section numbers that you woudl want, seperated with spaces\
->102 103 105 109\\
+>102 103 105 109\
 Or, if you just want to check every section, put ALL\
->ALL\\
+>ALL\
 If theres a section that you would want the auto add to work on, simply put a start after it.\
->102 103 105* 109\\
+>102 103 105* 109\
 ^ That just means that if 105 was availible, auto register me please. If none are selected, no auto-registration will happen.
 
 
