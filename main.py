@@ -2,15 +2,23 @@ from ClassObj import TAMUClass
 from ClassManipulator import Classer
 from ConfigReader import ConfigReader
 import time
-import py2exe
+import sys
 
 # Opens configuration file
 configs = ConfigReader("config_angelo.ini")
+# Make sure to change this to whatever your cofig file is
+
 
 # Opens the browser
 classBrowser = Classer(configs.user, configs.password)
 
+# Gets classes from the config reader
 classes = configs.classes
+
+# classBrowser.dropThenAddClass("18043","17859")
+classBrowser.dropThenAddClass("17859","1804")
+
+sys.exit(0)
 
 # Initialization step.
 for classItem in classes:

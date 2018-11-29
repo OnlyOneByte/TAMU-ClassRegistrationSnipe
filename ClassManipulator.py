@@ -32,7 +32,11 @@ class Classer:
             '2fa': "//iframe[@id='duo_iframe']",
             '2faButton': "/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button",
             'courseNumberBox': "//*[@id='crse_id']",
-            'sectionSearch' : "//*[@id='advCourseBtnDiv']/input"
+            'sectionSearch' : "//*[@id='advCourseBtnDiv']/input",
+            'addedCoursesTable' : "/html/body/div[3]/form/table[1]/tbody/tr",
+            'dropClassDropDown' : "//*[@id='action_id2']",
+            'classChangeSubmit': "/html/body/div[3]/form/input[19]",
+            'addCRNBox1': "//*[@id='crn_id1']"
         }
 
         self.browser = webdriver.Chrome(r"chromedriver.exe")
@@ -106,6 +110,9 @@ class Classer:
                     if(usePush):
                         self.browser.switch_to.frame(duoFrame)
                         self.browser.find_element_by_xpath(self.elems["2faButton"]).click()
+
+                        print("CHECK YOUR PHONE FOR PUSH NOTIF.")
+
                         # While not yet past 2fa page
                         while(len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0):
                             time.sleep(1)
@@ -285,6 +292,97 @@ class Classer:
                 print("An error happened when refreshing open spots. Retrying.")
 
         return openSpots
+    
+
+
+    """
+    This drops a class in order to replace it with a new one.
+
+    dropCourseAbbr: Course abbreviation of course to drop
+    dropCourseNum: Course number of the course to drop
+    addCourseCRN: the CRN of the course to add.
+
+    returns 0 if successful
+    returns -1 if failed.
+
+    """
+    def dropThenAddClass(self, dropCourseCRN, addCourseCRN):
+        # THis is to see if it finished dropping the class
+        droppedClass = False
+
+        # If successfully sniped. If it wasn't successfull, add the old class back
+        success = False
+
+        # This is to see if its done.
+        addedClass = False
+
+        while (not addedClass and not droppedClass):
+            try:    
+                self.browser.get(self.homeScreen)
+
+                # Opens registration window.
+                self.browser.find_element_by_xpath(self.elems['regClass']).click()
+                time.sleep(self.timeBetweenAction)
+
+                # Switches to the miniframe that TAMU uses on this page.
+                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                self.browser.switch_to.frame(iframe)
+
+                # Clicks the submit button to access the courses.
+                self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+                # Drops the class if it hasn't been dropped already.
+                if(not droppedClass):
+                    tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                    for i in range(1,len(tableRows)):
+                        rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
+                        if(dropCourseCRN == rowCRN):
+                            # drop old class here
+                            # Selects Drop
+                            self.browser.find_element_by_xpath("//select[@id='action_id"+str(i)+"']/option[text()='DROP']").click()
+                            break
+
+                    # Submits changes             
+                    self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
+                    droppedClass = True
+                    time.sleep(self.timeBetweenAction)
+                
+
+
+                # Adds CRN 
+                self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(addCourseCRN)
+                self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+
+                # Double checks to see if course was added.
+                tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                for i in range(1,len(tableRows)):
+                    rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
+                    if(addCourseCRN == rowCRN):
+                        print("SNIPED!")
+                        success = True
+
+
+                # If the program wasn't successful in a snipe, it adds the old course back
+                if not success:
+                    print("Wasn't successful. Adding old course back")
+                    self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(dropCourseCRN)
+                    self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
+                    return -1
+
+
+                # Got to add/drop place
+                addedClass = True
+                # Submits changes
+                time.sleep(self.timeBetweenAction)
+
+            except Exception as e:
+                self.errorHandler(e)
+                print("An error happened when sniping spots. Retrying.")
+
+        return 0
 
 
     """
