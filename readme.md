@@ -2,6 +2,8 @@
 # Must have selenium and chrome webdriver to use would also recommend Anaconda. Python 3.
 
 yeeeeeee hawwwwwwww
+last officially confirmed working 2018-11-29.
+I'll maintain this for as long as I'm a student at TAMU and I have to use their godforsaken registration system.
 
 # The INI file is laid out as follows.
 line 1: username to howdy
