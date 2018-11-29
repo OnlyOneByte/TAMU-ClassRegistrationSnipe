@@ -35,7 +35,7 @@ class Classer:
             'sectionSearch' : "//*[@id='advCourseBtnDiv']/input"
         }
 
-        self.browser = webdriver.Chrome(r"C:/Users/Angelo/Desktop/chromedriver.exe")
+        self.browser = webdriver.Chrome(r"chromedriver.exe")
         self.user = username
         self.passwd = password
 

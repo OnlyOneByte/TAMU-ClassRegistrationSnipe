@@ -1,5 +1,5 @@
 # Check the config.ini file to see how to use it.
-# Must have selenium and chrome webdriver to use would also recommend Anaconda. Python 3.
+# Must have Chrome and would also recommend Anaconda ver of Python 3.
 
 yeeeeeee hawwwwwwww
 last officially confirmed working 2018-11-29.
