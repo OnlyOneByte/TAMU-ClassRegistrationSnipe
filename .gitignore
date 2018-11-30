@@ -1,7 +1,7 @@
 config_angelo.ini
+config_test.ini
 debug.log
 __pycache__/
 main.spec
 build/
 dist/
-config_test.ini
