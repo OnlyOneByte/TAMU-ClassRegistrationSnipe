@@ -1,5 +1,6 @@
 config_angelo.ini
 config_test.ini
+bfg.jar
 debug.log
 __pycache__/
 main.spec
