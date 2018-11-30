@@ -16,12 +16,13 @@ The safety feature doesn't apply to straight additions because those you can do 
 # TODO: Logged out checker
 # TODO: Error Checking time script
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
-# TODO: Add message in email if any classes will be autoadded.
+# TODO: Add caching so that this step only has to be run when ini file is changed.
+# TODO: EMail user if auto-register of class was success or fail.
 
 
 # Opens configuration file
 configs = ConfigReader("config.ini")
-# Make sure to change this to whatever your cofig file is
+# Make sure to change this to whatever your config file is
 
 
 # Opens the browser
@@ -50,8 +51,6 @@ print("INITIALIZED!")
 runs = 0
 startTotalT = time.time()
 
-# Objs are now setup and stuff.
-# TODO: Add caching so that this step only has to be run when ini file is changed.
 
 # This is the big while loop daddy
 # All it does is:
@@ -114,6 +113,7 @@ while(len(classes) > 0):
     print("This run took", str(runTime), "seconds!")
     print("Average time per run:", str(avgTime))
     print("Completed " + str(runs) + " scans!")
+    print("----------------------------------------------------------")
 
     # sleep configured in config.ini
     time.sleep(configs.pollingRate) 

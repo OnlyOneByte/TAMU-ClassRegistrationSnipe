@@ -24,13 +24,18 @@ If you have a class that you have to drop in order to pick this up, include the 
 >Math,152\
 ^ That just means either: Don't auto add classes, or no need to drop before adding
 
-For the second line, its just a list of all the section numbers that you woudl want, seperated with spaces\
->102 103 105 109\
+For the second line, its just a list of all the section numbers that you woudl want, seperated with spaces
+>102 103 105 109
+
 Or, if you just want to check every section, put ALL\
->ALL\
+>ALL
+
 If theres a section that you would want the auto add to work on, simply put a start after it.\
->102 103 105* 109\
+>102 103 105* 109
+
 ^ That just means that if 105 was availible, auto register me please. If none are selected, no auto-registration will happen.
+
+I recommend you only star 1 section per class, but the program can handle multiple stars per class.
 
 NOTE: Section nums must be 3 digits long. If you have a 2 digit sction number (like 63) put a zero in front! (063)
 NOTE2: ANY CHANGES TO INI FILE REQUIRE A RESTART OF THE PROGRAM. (currently)

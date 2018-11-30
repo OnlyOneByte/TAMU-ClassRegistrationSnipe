@@ -1,5 +1,3 @@
-
-
 class TAMUClass:
 
     def __init__(self, subj, courseNumber, sectionNumbers, conflictClass=None, addSections=None, **kwargs):
@@ -49,14 +47,29 @@ class TAMUClass:
     def checkOpenSpotMessage(self): 
         openIndex = self.checkOpen(self.remainingSpots)
 
-        out = ""       
+        out = ""  
+
+        # Just any class that is open     
         if(len(openIndex) == 0):
             return out
         else:
             out = "The following classes are open for " + self.subjectAbbr + " " + self.courseNumber + "\n"
             for i in openIndex:
                 out += "Section " + self.sectionNumbers[i] + "\t CRN " + self.crns[i] + "\n"
+        
+
+        # Auto add. Tells you if a section is about to be auto-added
+        autoAdd = self.checkAutoAdd()
+        if(len(autoAdd) == 0):
             return out
+        else:
+            out += "\nThe following classes (attempt) to be auto-registered:"
+            for crn in autoAdd:
+                out += "Section " + self.crn2sec[crn] + "\t CRN " + crn + "\n"
+
+        return out
+        
+
 
 
 
