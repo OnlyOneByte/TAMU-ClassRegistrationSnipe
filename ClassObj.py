@@ -19,12 +19,7 @@ class TAMUClass:
         self.courseNumber = courseNumber
         self.sectionNumbers = sectionNumbers
     
-    def sectionToCRN(self, sectionNumber):
-        try:
-            return self.sec2crn[sectionNumber]
-        except:
-            print("CRNS NOT YET DEFINED.")
-
+    
     def setSectionNums(self, secNums):
         self.sectionNumbers = secNums
 

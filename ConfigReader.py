@@ -6,9 +6,7 @@ class ConfigReader:
 
     def __init__(self, pathToConfigFile):
         config = open(pathToConfigFile, "r+")
-
         data = config.readlines()
-
         config.close()
 
         self.user = data[0].strip("\n").split(",")[1]
@@ -35,30 +33,26 @@ class ConfigReader:
         for i in range(int(len(lines)/2)):
             header = lines[2*i].strip("\n").split(",")
             courses = lines[2*i + 1].strip("\n").split(" ")
-            print(header[2])
 
+            # Finds any courses with the star next to them
             specialCourses = []
             for j in range(len(courses)):
-                if courses[j][:1]=="*":
-                    specialCourses.append(courses[j][:-1])
-                    courses[j] = courses[j][:-1]
-                    
-            
+                if "*" in courses[j]:
+                    specialCourses.append(courses[j].strip("*"))
+                    courses[j] = courses[j].strip("*")
+
             if len(specialCourses) > 0 and len(header) == 3:
-                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, classConflict=header[2].strip(" "), specialCourses=specialCourses)
-                print("YEEE")
+                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, conflictClass=header[2].strip(" "), addSections=specialCourses)
             elif len(specialCourses) > 0:
-                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, specialCourses=specialCourses)
+                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, addSections=specialCourses)
             elif len(header) == 3:
-                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, classConflict=header[2].strip(" "))
+                classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses, conflictClass=header[2].strip(" "))
             else:
                 classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses)
 
-            
+            print(classTemp.specialSections)
             
             self.classes.append(classTemp)
-
-    sys.exit(0)
 
 
 

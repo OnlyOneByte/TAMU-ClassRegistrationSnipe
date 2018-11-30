@@ -4,7 +4,7 @@ from ConfigReader import ConfigReader
 import time
 
 # Opens configuration file
-configs = ConfigReader("config.ini")
+configs = ConfigReader("config_angelo.ini")
 # Make sure to change this to whatever your cofig file is
 
 
@@ -51,9 +51,37 @@ while(True):
         spots = classBrowser.checkSpots(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
         classItem.setRemainingSpots(spots)
         message = classItem.checkOpenSpotMessage()
+
+        # If theres an open
         if not message == "":
             print(message)
             classBrowser.emailNotif(message, configs.emailTo, configs.emailFrom, configs.emailPass)
+            
+            # If the user wanted a class to be auto added
+            if(classItem.addClass):
+                # Gets list of good CRNs
+                toBeAdded = classItem.checkAutoAdd()
+                tries = 0
+                success = False
+
+                # If theres a class that needs to be dropped.
+                if(classItem.needDrop):
+                    while(not success and tries < len(toBeAdded)):
+                        # dropThenAddClass returns 0 if it was successful
+                        success = classBrowser.dropThenAddClass(classItem.conflictCRN, toBeAdded[tries]) ==0
+                        tries += 1
+                else:
+                    while(not success and tries < len(toBeAdded)):
+                        # addClass returns 0 if it was successful
+                        success = classBrowser.addClass(toBeAdded[tries]) ==0
+                        tries += 1
+                
+                # just feedback for user
+                if(success):
+                    print("SUCCESS CONFIRMED BOIS")
+                else:
+                    print("Failure.")
+
 
 
     runs=runs+1
