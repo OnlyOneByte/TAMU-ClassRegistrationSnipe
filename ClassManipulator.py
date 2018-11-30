@@ -6,10 +6,6 @@ import traceback
 from selenium import webdriver
 from tkinter import messagebox
 
-# TODO: Create a system to automatically add/register for a class.
-# TODO: Logged out checker
-# TODO: No email spam.
-
 class Classer:
 
     def __init__(self, username, password):

@@ -3,6 +3,11 @@ from ClassManipulator import Classer
 from ConfigReader import ConfigReader
 import time
 
+
+# TODO: Logged out checker
+# TODO: system to check for false positives.
+#       Basically if a section is open two scans in a row THEN add it.
+
 # Opens configuration file
 configs = ConfigReader("config_angelo.ini")
 # Make sure to change this to whatever your cofig file is
@@ -47,7 +52,7 @@ while(True):
         print("Checking: " + classItem.subjectAbbr, classItem.courseNumber)
 
         spots = classBrowser.checkSpots(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
-        classItem.setRemainingSpots(spots)
+        classItem.updateRemainingSpots(spots)
         message = classItem.checkOpenSpotMessage()
 
         # If theres an open
