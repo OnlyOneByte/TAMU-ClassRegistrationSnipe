@@ -33,7 +33,7 @@ If theres a section that you would want the auto add to work on, simply put a st
 ^ That just means that if 105 was availible, auto register me please. If none are selected, no auto-registration will happen.
 
 NOTE: Section nums must be 3 digits long. If you have a 2 digit sction number (like 63) put a zero in front! (063)
-
+NOTE2: ANY CHANGES TO INI FILE REQUIRE A RESTART OF THE PROGRAM. (currently)
 
 
 
