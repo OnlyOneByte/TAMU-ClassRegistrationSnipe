@@ -422,8 +422,6 @@ class Classer:
                 tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
                 for i in range(1,len(tableRows)):
                     rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
-
-                    print(addCourseCRN, rowCRN)
                     if(addCourseCRN == rowCRN):
                         print("Success")
                         return 0

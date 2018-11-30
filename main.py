@@ -2,15 +2,25 @@ from ClassObj import TAMUClass
 from ClassManipulator import Classer
 from ConfigReader import ConfigReader
 import time
+"""
+This program has a safety feature if you intend to use this to replace classes rather than
+snipe them. If you intend to replace a class with a better schedule one, then the program
+will check to see if a spot is open for 2 consecutive scans before attempting to drop then add.
+This is to prevent a false-positive from screwing with the system
 
+- IF THE ADD FAILS, THE PROGRAM WILL RE-ADD THE OLD CLASS AGAIN.
+
+The safety feature doesn't apply to straight additions because those you can do without risk.
+"""
 
 # TODO: Logged out checker
 # TODO: Timer to count time
 # TODO: fix the login script.
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
 
+
 # Opens configuration file
-configs = ConfigReader("config_angelo.ini")
+configs = ConfigReader("config.ini")
 # Make sure to change this to whatever your cofig file is
 
 
