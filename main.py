@@ -50,7 +50,7 @@ while(True):
 
         spots = classBrowser.checkSpots(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
         classItem.setRemainingSpots(spots)
-        message = classItem.checkOpenSpots()
+        message = classItem.checkOpenSpotMessage()
         if not message == "":
             print(message)
             classBrowser.emailNotif(message, configs.emailTo, configs.emailFrom, configs.emailPass)

@@ -151,15 +151,12 @@ class Classer:
 
         searchAll = len(sections) == 0  # Searches all if sections is empty
         openSpots = []
-        crns = []
         
-        # Sorts array.
-        if not searchAll:
-            sections = [int(i) for i in sections]
-            sections.sort()
-            sections = [str(i) for i in sections]
-
-
+        if(searchAll):
+            crns = []
+        else:
+            cnrs = []*len(sections)
+        
         # This is to see if its done.
         checkedClasses = False
 
@@ -204,12 +201,11 @@ class Classer:
                     if(re.search(r'\d', sectionNum.text)):
                         if searchAll:
                             sections.append(sectionNum.text)
-                            openSpots.append(int(tableRows[i].find_elements_by_tag_name("td")[12].text))
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
 
                         if not searchAll and sectionNum.text in sections:
-                            openSpots.append(int(tableRows[i].find_elements_by_tag_name("td")[12].text))
-                            crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
+                            # Matches CRN to Section
+                            crns[sections.index(sectionNum.text)] = (tableRows[i].find_elements_by_tag_name("td")[1].text)
 
                 
                 checkedClasses = True
@@ -217,12 +213,6 @@ class Classer:
                 self.errorHandler(e)
                 print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
-
-        if not searchAll:
-            sections = [int(i) for i in sections]
-            sections.sort()
-            sections = [str(i) for i in sections]
-
 
 
         return crns, sections, openSpots
