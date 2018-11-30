@@ -19,15 +19,13 @@ for classItem in classes:
     print("Initializing: " + classItem.subjectAbbr, classItem.courseNumber)
     # Initializing CRNs
     if(classItem.sectionNumbers[0] == "ALL"):
-        crns, courses, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
+        crns, courses = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
         classItem.setSectionNums(courses)
         classItem.setCRNs(crns)
-        classItem.setRemainingSpots(openSpots)
     else:
-        crns, crsNums, openSpots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
+        crns, crsNums = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
         classItem.setSectionNums(crsNums)   # Might have been reordered
         classItem.setCRNs(crns)
-        classItem.setRemainingSpots(openSpots)
 
 print("INITIALIZED!")
     

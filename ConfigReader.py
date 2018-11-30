@@ -50,8 +50,6 @@ class ConfigReader:
             else:
                 classTemp = TAMUClass(header[0].strip(" "), header[1].strip(" "), courses)
 
-            print(classTemp.specialSections)
-            
             self.classes.append(classTemp)
 
 

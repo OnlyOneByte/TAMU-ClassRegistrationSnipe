@@ -116,6 +116,7 @@ class Classer:
                         # While not yet past 2fa page
                         while(len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0):
                             time.sleep(1)
+                        print("Got passed 2fa")
 
 
                     else:
@@ -150,12 +151,10 @@ class Classer:
             sections = []
 
         searchAll = len(sections) == 0  # Searches all if sections is empty
-        openSpots = []
-        
-        if(searchAll):
-            crns = []
-        else:
-            cnrs = []*len(sections)
+        crns = []
+
+        if(not searchAll):
+            crns = [""] * len(sections)
         
         # This is to see if its done.
         checkedClasses = False
@@ -198,15 +197,22 @@ class Classer:
                     # Gets section num and num remaining
                     sectionNum = tableRows[i].find_elements_by_tag_name("td")[4]
 
+                    # Some rows are padding for a class so this only finds rows with real classes.
                     if(re.search(r'\d', sectionNum.text)):
+
                         if searchAll:
                             sections.append(sectionNum.text)
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
 
                         if not searchAll and sectionNum.text in sections:
+                            crnSec = (tableRows[i].find_elements_by_tag_name("td")[1].text)
                             # Matches CRN to Section
-                            crns[sections.index(sectionNum.text)] = (tableRows[i].find_elements_by_tag_name("td")[1].text)
+                            crns[sections.index(sectionNum.text)] = crnSec
+                    
 
+                    if(not searchAll and len([x for x in crns if not x== ""]) == len(sections)):
+                        # If you aren't searching all this makes it move faster
+                        break
                 
                 checkedClasses = True
             except Exception as e:
@@ -214,8 +220,9 @@ class Classer:
                 print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
 
-
-        return crns, sections, openSpots
+                
+        print(sections, crns)
+        return crns, sections
 
 
     """
@@ -274,6 +281,10 @@ class Classer:
                     if(re.search(r'\d', numRemaining.text)):
                        if(sectionNum.text in sections):
                             openSpots.append(int(numRemaining.text))
+
+                    # Finished checking
+                    if(len(openSpots) == len(sections)):
+                        break
 
                 
                 checkedClasses = True

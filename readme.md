@@ -32,6 +32,8 @@ If theres a section that you would want the auto add to work on, simply put a st
 >102 103 105* 109\
 ^ That just means that if 105 was availible, auto register me please. If none are selected, no auto-registration will happen.
 
+NOTE: Section nums must be 3 digits long. If you have a 2 digit sction number (like 63) put a zero in front! (063)
+
 
 
 
