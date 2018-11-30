@@ -81,7 +81,7 @@ class Classer:
     This function navigates through the howdy login system. Requires user-input for the 2fa.
     """
     def login(self):
-        while (not self.loggedIn and not self.twofa):
+        while (not self.loggedIn or not self.twofa):
             try:
                 # Opens browser link
                 self.browser.get("https://howdy.tamu.edu")
@@ -122,12 +122,12 @@ class Classer:
                     self.twofa = True
                 except:
                     # TODO better bad pass and user check
-                    print("Check your password or username.")
+                    print("Whoops. no 2fa. Ignore if you've already done 2fa this specific run of the program")
                     pass
                 
 
-                # Toggles the logged in state to true.
-                self.loggedIn = True
+                # Toggles the logged in state to true, if registration button is found.
+                self.loggedIn = len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0
 
             except Exception as e:
                 self.errorHandler(e)
