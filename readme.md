@@ -41,6 +41,7 @@ I recommend you only star 1 section per class, but the program can handle multip
 
 NOTE: Section nums must be 3 digits long. If you have a 2 digit sction number (like 63) put a zero in front! (063)
 NOTE2: ANY CHANGES TO INI FILE REQUIRE A RESTART OF THE PROGRAM. (currently)
+NOTE3: Due to how howdy works, while the script is running you won't be able to check your registration/search for classes. Yeah I know its stupid. I'm working on the ability to pause te script in order to check your registration/classes.
 
 
 

@@ -18,23 +18,52 @@ class TAMUClass:
         self.sectionNumbers = sectionNumbers
         self.remainingSpots = []
     
-    
+
+    """
+    set the section numbers to be the list passed in.
+
+    args
+        secNums: list<string> of all the section numbers
+
+    no return
+    """
     def setSectionNums(self, secNums):
         self.sectionNumbers = secNums
 
+    """
+    Sets the CRNs and updates all the dictionaries
+
+    args
+        crns: list<string> of all the crns
+
+    no return
+    """
     def setCRNs(self, crns):
         self.crns = crns
         self.sec2crn = dict(zip(self.sectionNumbers, self.crns))
         self.crn2sec = dict(zip(self.crns, self.sectionNumbers))
     
-    def setRemainingSpots(self, remainingSpots):
-        self.remainingSpots = remainingSpots
+    """
+    Updates the remaining spots array to new scan values. Keeps a history of 1 scan.
 
-    # Shuffles it around.
+    args
+        remainingSpots: Array<int> of open spots.
+
+    no return
+    """
     def updateRemainingSpots(self, remainingSpots):
         self.oldSpots = self.remainingSpots
         self.remainingSpots = remainingSpots
 
+
+    """
+    Returns any indices of values greater than 0 in the array
+
+    args
+        spots: list<ints> to be checked
+
+    return type: list of ints
+    """
     def checkOpen(self, spots):
         indicesOpen = []
 
@@ -44,6 +73,13 @@ class TAMUClass:
 
         return indicesOpen
 
+
+    """
+    REturns an email message detailing any classes that are open, and if
+    any classes will be auto added.
+
+    return type: string
+    """
     def checkOpenSpotMessage(self): 
         openIndex = self.checkOpen(self.remainingSpots)
 
