@@ -228,7 +228,7 @@ class Classer:
     sections: [strings] - all the sections that you want to check
     """
     def checkSpots(self, subAbbr, courseNumber, sections):
-        openSpots = []
+        openSpots = [""]* len(sections)
 
 
         # This is to see if its done.
@@ -274,7 +274,7 @@ class Classer:
 
                     if(re.search(r'\d', numRemaining.text)):
                        if(sectionNum.text in sections):
-                            openSpots.append(int(numRemaining.text))
+                            openSpots[sections.index(sectionNum.text)]=(int(numRemaining.text))
 
                     # Finished checking
                     if(len(openSpots) == len(sections)):

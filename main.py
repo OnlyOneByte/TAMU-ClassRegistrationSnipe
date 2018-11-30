@@ -5,11 +5,10 @@ import time
 
 
 # TODO: Logged out checker
-# TODO: system to check for false positives.
-#       Basically if a section is open two scans in a row THEN add it.
+# TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
 
 # Opens configuration file
-configs = ConfigReader("config_angelo.ini")
+configs = ConfigReader("config.ini")
 # Make sure to change this to whatever your cofig file is
 
 
@@ -46,7 +45,7 @@ runs = 0
 #                   1.) Check for open spots for all classes and stuff
 #                   2.) Updates the variables of the classes
 #                   3.) Checks to see if any of the classes specified has an open spot.
-while(True):
+while(len(classes) > 0):
 
     for classItem in classes:
         print("Checking: " + classItem.subjectAbbr, classItem.courseNumber)
@@ -60,10 +59,11 @@ while(True):
             print(message)
             classBrowser.emailNotif(message, configs.emailTo, configs.emailFrom, configs.emailPass)
             
+            toBeAdded = classItem.checkAutoAdd()
             # If the user wanted a class to be auto added
-            if(classItem.addClass):
+            if(classItem.addClass and len(toBeAdded) > 0):
                 # Gets list of good CRNs
-                toBeAdded = classItem.checkAutoAdd()
+                
                 tries = 0
                 success = False
 
@@ -90,10 +90,9 @@ while(True):
 
 
     runs=runs+1
-    print("Completed " + str(runs) + " runs!")
+    print("Completed " + str(runs) + " scans!")
+
     # sleep configured in config.ini
     time.sleep(configs.pollingRate) 
 
-    if(len(classes) == 0):
-        print("Congratz, you got everything =))))))")
-        break
+print("Congratz, you got everything =))))))")
