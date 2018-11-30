@@ -70,9 +70,15 @@ class TAMUClass:
         openLast = self.checkOpen(self.oldSpots)
         goodCRNs = []
 
-        for i in openCurrent:
-            if self.sectionNumbers[i] in self.specialSections and i in openLast:
-                goodCRNs.append(self.sec2crn[self.sectionNumbers[i]])
+
+        if self.needDrop:
+            for i in openCurrent:
+                if self.sectionNumbers[i] in self.specialSections and i in openLast:
+                    goodCRNs.append(self.sec2crn[self.sectionNumbers[i]])
+        else:
+            for i in openCurrent:
+                if self.sectionNumbers[i]:
+                    goodCRNs.append(self.sec2crn[self.sectionNumbers[i]])
 
         return goodCRNs
 
