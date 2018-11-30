@@ -228,7 +228,8 @@ class Classer:
     sections: [strings] - all the sections that you want to check
     """
     def checkSpots(self, subAbbr, courseNumber, sections):
-        openSpots = [""]* len(sections)
+        openSpots = [0]* len(sections)
+        numChecked = 0
 
 
         # This is to see if its done.
@@ -272,12 +273,13 @@ class Classer:
                     sectionNum = tableRows[i].find_elements_by_tag_name("td")[4]
                     numRemaining = tableRows[i].find_elements_by_tag_name("td")[12]
 
-                    if(re.search(r'\d', numRemaining.text)):
-                       if(sectionNum.text in sections):
-                            openSpots[sections.index(sectionNum.text)]=(int(numRemaining.text))
+                    if(re.search(r'\d', sectionNum.text)):
+                        if(sectionNum.text in sections):
+                            openSpots[sections.index(sectionNum.text)]= int(numRemaining.text)
+                            checked+=1
 
                     # Finished checking
-                    if(len(openSpots) == len(sections)):
+                    if(checked == len(sections)):
                         break
 
                 
@@ -285,7 +287,7 @@ class Classer:
             except Exception as e:
                 self.errorHandler(e)
                 print("An error happened when refreshing open spots. Retrying.")
-
+        
         return openSpots
     
 

@@ -5,10 +5,12 @@ import time
 
 
 # TODO: Logged out checker
+# TODO: Timer to count time
+# TODO: fix the login script.
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
 
 # Opens configuration file
-configs = ConfigReader("config.ini")
+configs = ConfigReader("config_angelo.ini")
 # Make sure to change this to whatever your cofig file is
 
 
