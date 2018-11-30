@@ -229,7 +229,7 @@ class Classer:
     """
     def checkSpots(self, subAbbr, courseNumber, sections):
         openSpots = [0]* len(sections)
-        numChecked = 0
+        checked = 0
 
 
         # This is to see if its done.
