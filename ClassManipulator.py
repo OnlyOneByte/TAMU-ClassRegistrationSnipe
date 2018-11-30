@@ -220,8 +220,6 @@ class Classer:
                 print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
 
-                
-        print(sections, crns)
         return crns, sections
 
 
@@ -426,18 +424,18 @@ class Classer:
                 tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
                 for i in range(1,len(tableRows)):
                     rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
-                    if(addCourseCRN == rowCRN):
-                        print("Failed! Check your scheduling/holds!")
-                        return -1
 
+                    print(addCourseCRN, rowCRN)
+                    if(addCourseCRN == rowCRN):
+                        print("Success")
+                        return 0
                 # Got to add/drop place
                 finished = True
 
             except Exception as e:
                 self.errorHandler(e)
                 print("An error happened when sniping spots. Retrying.")
-
-        return 0
+        return -1
 
     """
     This function sends an email to the user notifying them of openings in classes that they want

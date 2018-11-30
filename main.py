@@ -77,8 +77,10 @@ while(True):
                 # just feedback for user
                 if(success):
                     print("SUCCESS CONFIRMED BOIS")
+                    classes.remove(classItem)
+                    print("Class removed from further scans")
                 else:
-                    print("Failure.")
+                    print("Failed. Will Keep scanning.")
 
 
 
@@ -86,3 +88,7 @@ while(True):
     print("Completed " + str(runs) + " runs!")
     # sleep configured in config.ini
     time.sleep(configs.pollingRate) 
+
+    if(len(classes) == 0):
+        print("Congratz, you got everything =))))))")
+        break
