@@ -2,7 +2,6 @@ config_angelo.ini
 config_test.ini
 bfg.jar
 debug.log
-.git.bfg-report/
 __pycache__/
 build/
 dist/

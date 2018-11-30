@@ -108,12 +108,12 @@ while(len(classes) > 0):
 
     # This is just informational stuff. Maybe to be used later.
     runs=runs+1
-    deltaT = (time.time()-startTotalT)  # Total time lapsed
-    avgTime = deltaT/runs
-    runTime = time.time()-startScanT    # Time lapsed this run.
+    deltaT = (time.time())                                  # Total time lapsed
+    runTime = time.time()-startScanT                        # Time lapsed this run.
+    avgTRun = (deltaT - configs.pollingRate * runs)/runs    # average time per run. Removed sleep time.
 
     print("This run took", str(runTime), "seconds!")
-    print("Average time per run:", str(avgTime))
+    print("Average time per run:", str(avgTRun), "Total time open: " + str(deltaT))
     print("Completed " + str(runs) + " scans!")
     print("----------------------------------------------------------")
 
