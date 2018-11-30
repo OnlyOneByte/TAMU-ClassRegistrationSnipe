@@ -4,3 +4,4 @@ __pycache__/
 main.spec
 build/
 dist/
+config_test.ini

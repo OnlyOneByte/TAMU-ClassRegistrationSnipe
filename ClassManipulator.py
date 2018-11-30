@@ -127,7 +127,7 @@ class Classer:
                 
 
                 # Toggles the logged in state to true, if registration button is found.
-                self.loggedIn = len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0
+                self.loggedIn = True
 
             except Exception as e:
                 self.errorHandler(e)

@@ -16,14 +16,14 @@ The safety feature doesn't apply to straight additions because those you can do 
 # TODO: Logged out checker
 # TODO: Error Checking login --> better error checking
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
+# TODO: Change class search to go through Search Classes instead of Registration.
 # TODO: Add caching so that this step only has to be run when ini file is changed.
 # TODO: EMail user if auto-register of class was success or fail.
 # TODO: Add ability to pause program
-# TODO: Handle ALL*
 
 
 # Opens configuration file
-configs = ConfigReader("config.ini")
+configs = ConfigReader("config_test.ini")
 # Make sure to change this to whatever your config file is
 
 

@@ -11,6 +11,7 @@ class TAMUClass:
             self.addClass = True
             self.specialSections = addSections
         else:
+            self.specialSections = []
             self.addClass = False
 
         self.subjectAbbr = subj
@@ -28,6 +29,9 @@ class TAMUClass:
     no return
     """
     def setSectionNums(self, secNums):
+        if(len(self.specialSections) == 1 and self.specialSections[0] == "ALL" ):
+            self.specialSections = secNums
+
         self.sectionNumbers = secNums
 
     """
