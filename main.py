@@ -14,9 +14,9 @@ The safety feature doesn't apply to straight additions because those you can do 
 """
 
 # TODO: Logged out checker
-# TODO: Timer to count time
-# TODO: fix the login script.
+# TODO: Error Checking time script
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
+# TODO: Add message in email if any classes will be autoadded.
 
 
 # Opens configuration file
@@ -40,7 +40,7 @@ for classItem in classes:
         classItem.setCRNs(crns)
     else:
         crns, crsNums = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
-        classItem.setSectionNums(crsNums)   # Might have been reordered
+        classItem.setSectionNums(crsNums) 
         classItem.setCRNs(crns)
 
 print("INITIALIZED!")
@@ -48,6 +48,7 @@ print("INITIALIZED!")
 
 
 runs = 0
+startTotalT = time.time()
 
 # Objs are now setup and stuff.
 # TODO: Add caching so that this step only has to be run when ini file is changed.
@@ -57,7 +58,9 @@ runs = 0
 #                   1.) Check for open spots for all classes and stuff
 #                   2.) Updates the variables of the classes
 #                   3.) Checks to see if any of the classes specified has an open spot.
+#                   4.) If there are open spots in the classes the user specified, attempt to register for them
 while(len(classes) > 0):
+    startScanT = time.time()
 
     for classItem in classes:
         print("Checking: " + classItem.subjectAbbr, classItem.courseNumber)
@@ -101,7 +104,15 @@ while(len(classes) > 0):
 
 
 
+
+    # This is just informational stuff. Maybe to be used later.
     runs=runs+1
+    deltaT = (time.time()-startTotalT)  # Total time lapsed
+    avgTime = deltaT/runs
+    runTime = time.time()-startScanT    # Time lapsed this run.
+
+    print("This run took", str(runTime), "seconds!")
+    print("Average time per run:", str(avgTime))
     print("Completed " + str(runs) + " scans!")
 
     # sleep configured in config.ini
