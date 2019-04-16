@@ -18,12 +18,11 @@ The safety feature doesn't apply to straight additions because those you can do 
 # TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
 # TODO: Change class search to go through Search Classes instead of Registration.
 # TODO: Add caching so that this step only has to be run when ini file is changed.
-# TODO: EMail user if auto-register of class was success or fail.
 # TODO: Add ability to pause program
 
 
 # Opens configuration file
-configs = ConfigReader("config_test.ini")
+configs = ConfigReader("config_angelo.ini")
 # Make sure to change this to whatever your config file is
 
 
@@ -54,7 +53,6 @@ runs = 0
 startTotalT = time.time()
 
 
-# This is the big while loop daddy
 # All it does is:
 #                   1.) Check for open spots for all classes and stuff
 #                   2.) Updates the variables of the classes

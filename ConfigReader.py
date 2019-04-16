@@ -1,4 +1,5 @@
 import sys
+from datetime import datetime
 from ClassObj import TAMUClass
 
 
@@ -15,10 +16,24 @@ class ConfigReader:
         self.emailPass = data[3].strip("\n").split(",")[1]
         self.emailTo = data[4].strip("\n").split(",")[1]
         self.pollingRate = float(data[5].strip("\n").split(",")[1])
-        # 7th line (index 6) is skipped.
+
+        # string time open
+        timeOpen = data[6].strip("\n").split(",")[1]
+        self.openTime = datetime.strptime(timeOpen, "%Y-%m-%d-%H-%M")
+
+        # Diagnostic Messages:
+        print("Username: " + self.user)
+        print("emailTo: " + self.emailTo)
+        print("Polling rate: " + str(self.pollingRate))
+        print("Open Time: " + str(self.openTime.strftime("%Y-%m-%d %H:%M")))
+
+
+
+
+        # 8th line (index 7) is skipped.
 
         # Data must now be in pairs of two.
-        self.readInClasses(data[7:])
+        self.readInClasses(data[8:])
 
     
 
