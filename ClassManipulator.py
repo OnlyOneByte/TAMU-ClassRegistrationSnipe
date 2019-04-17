@@ -16,7 +16,7 @@ class Classer:
                 # uses the old class search funciton
         # These are the elements added.
         self.classElems = {
-            "ClassSearch" :"//*[@id='tamu-searchclasssche-icon']",
+            'ClassSearch' :"//*[@id='tamu-searchclasssche-icon']",
             'MiniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
             'TermSubmit': "//input[@type='submit' and @value='Submit']",
             'AdvancedSearch': "/html/body/div[3]/form[2]/div/input",
@@ -28,14 +28,14 @@ class Classer:
 
         # xPaths to a bunch of things I need to navigate around.
         # They are here so I can easily edit them in case howdy changes.
-        self.elems = {'howdyHome': "//*[@id='loginbtn']",
+        self.elems = {
+            'howdyHome': "//*[@id='loginbtn']",
             'usernameBox': "//*[@id='username']",
             'passwordBox': "//*[@id='password']",
             'nextButton': "//button[@type='submit']",
             'recordTab': "My Record",
             'addDropButton': "Add or Drop Classes",
             'regClass': "//*[@title='Registration']",
-            'miniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
             'termSubmit': "//input[@type='submit' and @value='Submit']",
             '2fa': "//iframe[@id='duo_iframe']",
             '2faButton': "/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button",
@@ -159,6 +159,7 @@ class Classer:
 
         if(not searchAll):
             crns = [""] * len(sections)
+            openSpots = [0] * len(sections)
         
         # This is to see if its done.
         checkedClasses = False
@@ -209,7 +210,7 @@ class Classer:
                         if searchAll:
                             sections.append(sectionNum.text)
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
-                            openSpots[sections.index(sectionNum.text)]= int(numRemaining.text)
+                            openSpots.append(int(numRemaining.text))
 
                         if not searchAll and sectionNum.text in sections:
                             crnSec = (tableRows[i].find_elements_by_tag_name("td")[1].text)
@@ -228,7 +229,7 @@ class Classer:
                 print("Something went wrong searching for the class. Trying again.")
                 # sys.exit(0)
 
-        return crns, sections
+        return crns, sections, openSpots
 
 
     """
@@ -258,7 +259,7 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems['MiniFrame'])
                 self.browser.switch_to.frame(iframe)
                 time.sleep(self.timeBetweenAction)
 
@@ -332,7 +333,7 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems['MiniFrame'])
                 self.browser.switch_to.frame(iframe)
 
                 # Clicks the submit button to access the courses.
@@ -341,7 +342,7 @@ class Classer:
 
                 # Drops the class if it hasn't been dropped already.
                 if(not droppedClass):
-                    tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                    tableRows = self.browser.find_elements_by_xpath(self.elems['addedCoursesTable'])
                     for i in range(1,len(tableRows)):
                         rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
                         if(dropCourseCRN == rowCRN):
@@ -415,7 +416,7 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems['miniFrame'])
                 self.browser.switch_to.frame(iframe)
 
                 # Clicks the submit button to access the courses.
@@ -467,19 +468,12 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems['MiniFrame'])
                 self.browser.switch_to.frame(iframe)
 
                 # Clicks the submit button to access the courses.
                 self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
                 time.sleep(self.timeBetweenAction)
-
-                # Refreshes page every 2 seconds.
-                while(len(self.browser.find_elements_by_xpath(self.elems['addCRNBox1'])) == 0):
-                    time.sleep(1)
-                    self.browser.refresh()
-                    self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
-                    time.sleep(self.timeBetweenAction)
 
                 boxes = ["//*[@id='crn_id1']",
                         "//*[@id='crn_id2']",
@@ -488,11 +482,19 @@ class Classer:
                         "//*[@id='crn_id5']",
                         "//*[@id='crn_id6']",
                         "//*[@id='crn_id7']",
-                        "//*[@id='crn_id8']"
+                        "//*[@id='crn_id8']",
+                        "//*[@id='crn_id9']",
+                        "//*[@id='crn_id10']"
                 ]
 
+                # Refreshes page every 2 seconds.
+                while(len(self.browser.find_elements_by_xpath(boxes[0])) == 0):
+                    time.sleep(1)
+                    self.browser.refresh()
+                    self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                    time.sleep(self.timeBetweenAction)
+
                 # Adds CRN 
-                # self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(addCourseCRN)
                 for i in range(len(addCourseCRN)):
                     self.browser.find_element_by_xpath(boxes[i]).send_keys(addCourseCRN[i])
 
@@ -501,7 +503,7 @@ class Classer:
 
 
                 # Double checks to see if course was added.
-                tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                tableRows = self.browser.find_elements_by_xpath(self.elems['addedCoursesTable'])
                 for i in range(1,len(tableRows)):
                     rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
                     if(addCourseCRN == rowCRN):

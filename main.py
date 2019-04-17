@@ -85,7 +85,7 @@ def normalLoop():
 
         # This is just informational stuff. Maybe to be used later.
         runs=runs+1
-        deltaT = (time.time())                                  # Total time lapsed
+        deltaT = (time.time()-startTotalT)                                  # Total time lapsed
         runTime = time.time()-startScanT                        # Time lapsed this run.
         avgTRun = (deltaT - configs.pollingRate * runs)/runs    # average time per run. Removed sleep time.
 
@@ -105,9 +105,7 @@ def beforeOpenLoop():
 
     # does a check.
     for classItem in classes:
-        checkClassRun(classItem)
         message = classItem.onlyOpenSpotsMessage()
-
         # If theres an open
         if not message == "":
             print(message)
@@ -196,13 +194,15 @@ def main():
         print("Initializing: " + classItem.subjectAbbr, classItem.courseNumber)
         # Initializing CRNs
         if(classItem.sectionNumbers[0] == "ALL"):
-            crns, courses = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
+            crns, courses, openspots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber)        
             classItem.setSectionNums(courses)
             classItem.setCRNs(crns)
+            classItem.updateRemainingSpots(openspots)
         else:
-            crns, crsNums = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
+            crns, crsNums, openspots = classBrowser.getData(classItem.subjectAbbr, classItem.courseNumber, classItem.sectionNumbers)
             classItem.setSectionNums(crsNums) 
             classItem.setCRNs(crns)
+            classItem.updateRemainingSpots(openspots)
 
     print("CLASS DATA INITIALIZED!")
 

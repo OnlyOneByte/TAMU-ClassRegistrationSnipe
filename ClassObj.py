@@ -162,7 +162,7 @@ class TAMUClass:
                     goodCRNs.append(self.sec2crn[self.sectionNumbers[i]])
         else:
             for i in openCurrent:
-                if self.sectionNumbers[i]:
+                if self.sectionNumbers[i] in self.specialSections:
                     goodCRNs.append(self.sec2crn[self.sectionNumbers[i]])
 
         return goodCRNs
