@@ -132,8 +132,6 @@ class TAMUClass:
     def checkAdd(self):
         openIndices = self.checkOpen(self.remainingSpots)
         openSectionNums = [self.sectionNumbers[i] for i in openIndices]
-        print(self.specialSections)
-        print(openSectionNums)
 
         intersectListSections = list(set(self.specialSections) & set(openSectionNums)) 
 

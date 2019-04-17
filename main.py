@@ -159,6 +159,8 @@ def beforeOpenLoop():
             else:
                 time.sleep(15)
 
+    print("--------------------1 Minutes from opening checkpoint.----------------------")
+
     crns = []
 
     # Creates list of CRNs to be added.

@@ -11,7 +11,7 @@ class Classer:
 
     def __init__(self, username, password):
 
-        self.timeBetweenAction=0.5
+        self.timeBetweenAction=1
 
                 # uses the old class search funciton
         # These are the elements added.
@@ -107,7 +107,7 @@ class Classer:
                 self.browser.find_element_by_xpath(self.elems['nextButton']).click()
                 
                 # The 2fa module takes a bit to load. Give it extra time.
-                time.sleep(6*self.timeBetweenAction)
+                time.sleep(2*self.timeBetweenAction)
 
                 # 2FA sequence
                 try:
@@ -155,6 +155,7 @@ class Classer:
     def getData(self, subAbbr, courseNumber, sections=[]):
         searchAll = len(sections) == 0  # Searches all if sections is empty
         crns = []
+        openSpots = []
 
         if(not searchAll):
             crns = [""] * len(sections)
@@ -170,7 +171,7 @@ class Classer:
 
                 # Opens new class search
                 self.browser.find_element_by_xpath(self.classElems['ClassSearch']).click()
-    
+                time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
                 iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
@@ -199,18 +200,22 @@ class Classer:
                 for i in range(2, len(tableRows)):
                     # Gets section num and num remaining
                     sectionNum = tableRows[i].find_elements_by_tag_name("td")[4]
+                    numRemaining = tableRows[i].find_elements_by_tag_name("td")[12]
 
                     # Some rows are padding for a class so this only finds rows with real classes.
                     if(re.search(r'\d', sectionNum.text)):
-
+                        
+                        # Searches all spections
                         if searchAll:
                             sections.append(sectionNum.text)
                             crns.append(tableRows[i].find_elements_by_tag_name("td")[1].text)
+                            openSpots[sections.index(sectionNum.text)]= int(numRemaining.text)
 
                         if not searchAll and sectionNum.text in sections:
                             crnSec = (tableRows[i].find_elements_by_tag_name("td")[1].text)
                             # Matches CRN to Section
                             crns[sections.index(sectionNum.text)] = crnSec
+                            openSpots[sections.index(sectionNum.text)]= int(numRemaining.text)
                     
 
                     if(not searchAll and len([x for x in crns if not x== ""]) == len(sections)):
@@ -250,7 +255,7 @@ class Classer:
 
                 # Opens new class search
                 self.browser.find_element_by_xpath(self.classElems['ClassSearch']).click()
-    
+                time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
                 iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
