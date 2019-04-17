@@ -139,7 +139,11 @@ class TAMUClass:
 
         crnsIntersect = [self.sec2crn[i] for i in intersectListSections]
 
-        return crnsIntersect
+        # only returns the top 2
+        if(len(crnsIntersect) > 2):
+            return crnsIntersect[:2]
+        else:
+            return crnsIntersect
 
 
 
