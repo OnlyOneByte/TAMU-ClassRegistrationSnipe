@@ -244,7 +244,7 @@ class Classer:
 
         while (not checkedClasses):
             try:
-                                # Opens home screen
+                # Opens home screen
                 self.browser.get(self.homeScreen)
                 time.sleep(self.timeBetweenAction)
 
@@ -420,6 +420,77 @@ class Classer:
 
                 # Adds CRN 
                 self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(addCourseCRN)
+                self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+
+                # Double checks to see if course was added.
+                tableRows = self.browser.find_elements_by_xpath(self.elems["addedCoursesTable"])
+                for i in range(1,len(tableRows)):
+                    rowCRN = tableRows[i].find_elements_by_tag_name("td")[2].text
+                    if(addCourseCRN == rowCRN):
+                        print("Success")
+                        return 0
+                # Got to add/drop place
+                finished = True
+
+            except Exception as e:
+                self.errorHandler(e)
+                print("An error happened when sniping spots. Retrying.")
+        return -1
+
+
+
+    """
+    Keeps refreshing until open time.
+    addCourseCRN: list CRNs to add.
+
+    returns 0 if successful
+    returns -1 if failed.
+
+    """
+    def waitAddClass(self, addCourseCRN):
+        # This is to see if its done.
+        finished = False
+
+        while (not finished):
+            try:    
+                self.browser.get(self.homeScreen)
+
+                # Opens registration window.
+                self.browser.find_element_by_xpath(self.elems['regClass']).click()
+                time.sleep(self.timeBetweenAction)
+
+                # Switches to the miniframe that TAMU uses on this page.
+                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                self.browser.switch_to.frame(iframe)
+
+                # Clicks the submit button to access the courses.
+                self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                time.sleep(self.timeBetweenAction)
+
+                # Refreshes page every 2 seconds.
+                while(len(self.browser.find_elements_by_xpath(self.elems['addCRNBox1'])) == 0):
+                    time.sleep(1)
+                    self.browser.refresh()
+                    self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
+                    time.sleep(self.timeBetweenAction)
+
+                boxes = ["//*[@id='crn_id1']",
+                        "//*[@id='crn_id2']",
+                        "//*[@id='crn_id3']",
+                        "//*[@id='crn_id4']",
+                        "//*[@id='crn_id5']",
+                        "//*[@id='crn_id6']",
+                        "//*[@id='crn_id7']",
+                        "//*[@id='crn_id8']"
+                ]
+
+                # Adds CRN 
+                # self.browser.find_element_by_xpath(self.elems['addCRNBox1']).send_keys(addCourseCRN)
+                for i in range(len(addCourseCRN)):
+                    self.browser.find_element_by_xpath(boxes[i]).send_keys(addCourseCRN[i])
+
                 self.browser.find_element_by_xpath(self.elems['classChangeSubmit']).click()
                 time.sleep(self.timeBetweenAction)
 

@@ -79,7 +79,7 @@ class TAMUClass:
 
 
     """
-    REturns an email message detailing any classes that are open, and if
+    Returns an email message detailing any classes that are open, and if
     any classes will be auto added.
 
     return type: string
@@ -110,6 +110,36 @@ class TAMUClass:
         return out
         
 
+    def onlyOpenSpotsMessage(self):
+        openIndex = self.checkOpen(self.remainingSpots)
+
+        out = ""  
+
+        # Just any class that is open     
+        if(len(openIndex) == 0):
+            return out
+        else:
+            out = "The following classes are open for " + self.subjectAbbr + " " + self.courseNumber + "\n"
+            for i in openIndex:
+                out += "Section " + self.sectionNumbers[i] + "\t CRN " + self.crns[i] + "\n"
+
+        return out
+
+
+    """
+    Returns a list of CRNs of classes that the user wanted and have open spots.
+    """
+    def checkAdd(self):
+        openIndices = self.checkOpen(self.remainingSpots)
+        openSectionNums = [self.sectionNumbers[i] for i in openIndices]
+        print(self.specialSections)
+        print(openSectionNums)
+
+        intersectListSections = list(set(self.specialSections) & set(openSectionNums)) 
+
+        crnsIntersect = [self.sec2crn[i] for i in intersectListSections]
+
+        return crnsIntersect
 
 
 
