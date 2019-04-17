@@ -19,6 +19,7 @@ The safety feature doesn't apply to straight additions because those you can do 
 # TODO: Change class search to go through Search Classes instead of Registration.
 # TODO: Add caching so that this step only has to be run when ini file is changed.
 # TODO: Add ability to pause program
+# TODO: Allow for variable registration terms
 
 
 # Opens configuration file

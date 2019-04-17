@@ -4,6 +4,7 @@ import sys
 import re
 import traceback
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from tkinter import messagebox
 
 class Classer:
@@ -11,6 +12,19 @@ class Classer:
     def __init__(self, username, password):
 
         self.timeBetweenAction=0.5
+
+                # uses the old class search funciton
+        # These are the elements added.
+        self.classElems = {
+            "ClassSearch" :"//*[@id='tamu-searchclasssche-icon']",
+            'MiniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
+            'TermSubmit': "//input[@type='submit' and @value='Submit']",
+            'AdvancedSearch': "/html/body/div[3]/form[2]/div/input",
+            'CourseNumberBox': "//*[@id='crse_id']",
+            'SectionSearch' : "//*[@id='advCourseBtnDiv']/input",
+            'SubjectAbbrev' : "/html/body/div[3]/form/table[1]/tbody/tr/td[2]/select/option[@value='",
+            'TableRows' : "/html/body/div[3]/form/table/tbody/tr",
+        }
 
         # xPaths to a bunch of things I need to navigate around.
         # They are here so I can easily edit them in case howdy changes.
@@ -23,12 +37,8 @@ class Classer:
             'regClass': "//*[@title='Registration']",
             'miniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
             'termSubmit': "//input[@type='submit' and @value='Submit']",
-            'classSearch': "/html/body/div[3]/form/input[20]",
-            'advancedSearch': "/html/body/div[3]/form[2]/span/input",
             '2fa': "//iframe[@id='duo_iframe']",
             '2faButton': "/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button",
-            'courseNumberBox': "//*[@id='crse_id']",
-            'sectionSearch' : "//*[@id='advCourseBtnDiv']/input",
             'addedCoursesTable' : "/html/body/div[3]/form/table[1]/tbody/tr",
             'dropClassDropDown' : "//*[@id='action_id2']",
             'classChangeSubmit': "/html/body/div[3]/form/input[19]",
@@ -43,7 +53,7 @@ class Classer:
         self.twofa = False       
 
         self.errorsTotal = 0    # Total errors so far
-        self.errorsReset = 100  # Errors before total reset.
+        self.errorsReset = 25  # Errors before total reset.
 
         # Homescreeen once logged in.
         self.homeScreen = "https://howdy.tamu.edu/uPortal/f/welcome/normal/render.uP"
@@ -142,10 +152,7 @@ class Classer:
     courseNumber: string. The # of the course (CHEM 117, course number would be 117)
     sections: [strings] - all the sections that you want to check
     """
-    def getData(self, subAbbr, courseNumber, sections=None):
-        if(sections==None):
-            sections = []
-
+    def getData(self, subAbbr, courseNumber, sections=[]):
         searchAll = len(sections) == 0  # Searches all if sections is empty
         crns = []
 
@@ -156,38 +163,38 @@ class Classer:
         checkedClasses = False
 
         while (not checkedClasses):
-            try:    
+            try:
+                # Opens home screen
                 self.browser.get(self.homeScreen)
                 time.sleep(self.timeBetweenAction)
-                # Opens registration window.
-                self.browser.find_element_by_xpath(self.elems['regClass']).click()
+
+                # Opens new class search
+                self.browser.find_element_by_xpath(self.classElems['ClassSearch']).click()
+    
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
                 self.browser.switch_to.frame(iframe)
-
-                time.sleep(2*self.timeBetweenAction)
+                time.sleep(self.timeBetweenAction)
 
                 # Navigates to search function
-                self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
-                time.sleep(self.timeBetweenAction)
+                self.browser.find_element_by_xpath(self.classElems['TermSubmit']).click()
+                time.sleep(2*self.timeBetweenAction)
 
-                self.browser.find_element_by_xpath(self.elems['classSearch']).click()
-                time.sleep(self.timeBetweenAction)
-
-                self.browser.find_element_by_xpath(self.elems['advancedSearch']).click()
+                # Opens advanced Search
+                self.browser.find_element_by_xpath(self.classElems['AdvancedSearch']).click()
                 time.sleep(self.timeBetweenAction)
 
                 # Search function using thing.
-                subjectAbbr = "/html/body/div[3]/form/table[1]/tbody/tr/td[2]/select/option[@value='"+ subAbbr+"']"
+                subjectAbbr = self.classElems['SubjectAbbrev'] + subAbbr+"']"
                 self.browser.find_element_by_xpath(subjectAbbr).click()
-                self.browser.find_element_by_xpath(self.elems['courseNumberBox']).send_keys(courseNumber)
-                self.browser.find_element_by_xpath(self.elems['sectionSearch']).click()
+                self.browser.find_element_by_xpath(self.classElems['CourseNumberBox']).send_keys(courseNumber)
+                self.browser.find_element_by_xpath(self.classElems['SectionSearch']).click()
                 # At this point should have reached the course list
                 time.sleep(self.timeBetweenAction)
 
                 # rows of rable
-                tableRows = self.browser.find_elements_by_xpath("/html/body/div[3]/form/table/tbody/tr")
+                tableRows = self.browser.find_elements_by_xpath(self.classElems['TableRows'])
 
                 for i in range(2, len(tableRows)):
                     # Gets section num and num remaining
@@ -236,38 +243,38 @@ class Classer:
         checkedClasses = False
 
         while (not checkedClasses):
-            try:    
+            try:
+                                # Opens home screen
                 self.browser.get(self.homeScreen)
-
-                # Opens registration window.
-                self.browser.find_element_by_xpath(self.elems['regClass']).click()
                 time.sleep(self.timeBetweenAction)
+
+                # Opens new class search
+                self.browser.find_element_by_xpath(self.classElems['ClassSearch']).click()
+    
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.elems["miniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
                 self.browser.switch_to.frame(iframe)
-
+                time.sleep(self.timeBetweenAction)
 
                 # Navigates to search function
-                self.browser.find_element_by_xpath(self.elems['termSubmit']).click()
-                time.sleep(self.timeBetweenAction)
-                self.browser.find_element_by_xpath(self.elems['classSearch']).click()
-                time.sleep(self.timeBetweenAction)
-                self.browser.find_element_by_xpath(self.elems['advancedSearch']).click()
+                self.browser.find_element_by_xpath(self.classElems['TermSubmit']).click()
+                time.sleep(2*self.timeBetweenAction)
+
+                # Opens advanced Search
+                self.browser.find_element_by_xpath(self.classElems['AdvancedSearch']).click()
                 time.sleep(self.timeBetweenAction)
 
                 # Search function using thing.
-                subjectAbbr = "/html/body/div[3]/form/table[1]/tbody/tr/td[2]/select/option[@value='"+ subAbbr+"']"
+                subjectAbbr = self.classElems['SubjectAbbrev'] + subAbbr+"']"
                 self.browser.find_element_by_xpath(subjectAbbr).click()
-                self.browser.find_element_by_xpath(self.elems['courseNumberBox']).send_keys(courseNumber)
-                self.browser.find_element_by_xpath(self.elems['sectionSearch']).click()
-                time.sleep(self.timeBetweenAction)
-                
+                self.browser.find_element_by_xpath(self.classElems['CourseNumberBox']).send_keys(courseNumber)
+                self.browser.find_element_by_xpath(self.classElems['SectionSearch']).click()
                 # At this point should have reached the course list
+                time.sleep(self.timeBetweenAction)
 
-                # rows of table
-                
-                tableRows = self.browser.find_elements_by_xpath("/html/body/div[3]/form/table/tbody/tr")
+                # rows of rable
+                tableRows = self.browser.find_elements_by_xpath(self.classElems['TableRows'])
 
                 for i in range(2, len(tableRows)):
                     sectionNum = tableRows[i].find_elements_by_tag_name("td")[4]
@@ -287,7 +294,6 @@ class Classer:
             except Exception as e:
                 self.errorHandler(e)
                 print("An error happened when refreshing open spots. Retrying.")
-        
         return openSpots
     
 
