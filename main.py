@@ -63,7 +63,6 @@ def normalLoop():
     runs = 0
     startTotalT = time.time()
 
-
     # All it does is:
     #   1.) Check for open spots for all classes and stuff
     #   2.) Updates the variables of the classes
@@ -71,6 +70,7 @@ def normalLoop():
     #   4.) Attempts to register for classes indicated by user and are open.
     while(len(classes) > 0):
         startScanT = time.time()
+
         # Checks class item.
         for classItem in classes:
             checkClassRun(classItem)
@@ -85,10 +85,10 @@ def normalLoop():
 
         # This is just informational stuff. Maybe to be used later.
         runs=runs+1
-        deltaT = (time.time()-startTotalT)                      # Total time lapsed
-        runTime = time.time()-startScanT                        # Time lapsed this run.
-        avgTRun = (deltaT - (configs.pollingRate*runs))/runs  # average time per run. Removed sleep time.
-
+        deltaT = (time.time()-startTotalT)                              # Total time lapsed
+        runTime = (time.time()-startScanT)                              # Time lapsed this run.
+        avgTRun = (deltaT - (configs.pollingRate * (runs-1)))/runs      # average time per run. Removed sleep time.
+        
         print("This run took", str(runTime), "seconds!")
         print("Average time per run:", str(avgTRun), "Total time open: " + str(deltaT))
         print("Completed " + str(runs) + " scans!")
