@@ -62,7 +62,6 @@ def addClass(classItem):
 def normalLoop():
     runs = 0
     startTotalT = time.time()
-    startScanT = time.time()
 
 
     # All it does is:
@@ -71,6 +70,7 @@ def normalLoop():
     #   3.) Checks to see if any of the classes specified has an open spot.
     #   4.) Attempts to register for classes indicated by user and are open.
     while(len(classes) > 0):
+        startScanT = time.time()
         # Checks class item.
         for classItem in classes:
             checkClassRun(classItem)
@@ -85,9 +85,9 @@ def normalLoop():
 
         # This is just informational stuff. Maybe to be used later.
         runs=runs+1
-        deltaT = (time.time()-startTotalT)                                  # Total time lapsed
+        deltaT = (time.time()-startTotalT)                      # Total time lapsed
         runTime = time.time()-startScanT                        # Time lapsed this run.
-        avgTRun = (deltaT - configs.pollingRate * runs)/runs    # average time per run. Removed sleep time.
+        avgTRun = (deltaT - (configs.pollingRate*runs))/runs  # average time per run. Removed sleep time.
 
         print("This run took", str(runTime), "seconds!")
         print("Average time per run:", str(avgTRun), "Total time open: " + str(deltaT))

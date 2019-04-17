@@ -416,7 +416,7 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.classElems['miniFrame'])
+                iframe = self.browser.find_element_by_xpath(self.classElems['MiniFrame'])
                 self.browser.switch_to.frame(iframe)
 
                 # Clicks the submit button to access the courses.
