@@ -12,13 +12,9 @@ class Classer:
     def __init__(self, username, password):
 
         self.timeBetweenAction=1
-
-        # uses the old class search funciton
-        # These are the elements added.
-        # MiniFrame is unique to each person. You will need to find yours.
         self.classElems = {
+            'MiniFrame' : "//iframe[contains(@id, 'Pluto_92_ctf3')]",
             'ClassSearch' :"//*[@id='tamu-searchclasssche-icon']",
-            'MiniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
             'TermSubmit': "//input[@type='submit' and @value='Submit']",
             'AdvancedSearch': "/html/body/div[3]/form[2]/div/input",
             'CourseNumberBox': "//*[@id='crse_id']",
@@ -177,7 +173,7 @@ class Classer:
                 time.sleep(self.timeBetweenAction)
 
                 # Switches to the miniframe that TAMU uses on this page.
-                iframe = self.browser.find_element_by_xpath(self.classElems["MiniFrame"])
+                iframe = self.browser.find_element_by_xpath(self.classElems['MiniFrame'])
                 self.browser.switch_to.frame(iframe)
                 time.sleep(self.timeBetweenAction)
 
