@@ -181,7 +181,7 @@ def beforeOpenLoop():
 def main(): 
     # Opens configuration file
     global configs
-    configs = ConfigReader("config_angelo.ini")
+    configs = ConfigReader("config.ini")
     # Make sure to change this to whatever your config file is
 
     # Opens the browser
