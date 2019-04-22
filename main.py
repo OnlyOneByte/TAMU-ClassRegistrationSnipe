@@ -79,7 +79,10 @@ def normalLoop():
             # If theres an open
             if not message == "":
                 print(message)
-                classBrowser.emailNotif(message, configs.emailTo, configs.emailFrom, configs.emailPass)
+                try:
+                    classBrowser.emailNotif(message, configs.emailTo, configs.emailFrom, configs.emailPass)
+                except Exception as e:
+                    print("Failed to email info. Ignore of no email was provided.")
                 addClass(classItem)
                 
 
