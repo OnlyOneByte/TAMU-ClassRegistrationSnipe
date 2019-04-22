@@ -12,7 +12,8 @@ line 3: email from which the email will BE SENT. I recommend creating a throwawa
 line 4: email password.\
 line 5: email of recipient. So your email, or whatever email you check often.\
 line 6: polling timeout. The timeout between consecutive passes.\
-line 7: ignored. Nothing here
+line 7: Registration open time. Put as time that has passed to just use snipe function.\
+line 8: ignored. Nothing here
 
 All lines for classes are PAIRED.
 You can add as many classes as you want.
