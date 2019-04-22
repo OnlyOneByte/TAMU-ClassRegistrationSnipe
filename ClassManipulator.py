@@ -13,8 +13,9 @@ class Classer:
 
         self.timeBetweenAction=1
 
-                # uses the old class search funciton
+        # uses the old class search funciton
         # These are the elements added.
+        # MiniFrame is unique to each person. You will need to find yours.
         self.classElems = {
             'ClassSearch' :"//*[@id='tamu-searchclasssche-icon']",
             'MiniFrame': "//iframe[@id='Pluto_92_ctf3_247668_tw_frame']",
@@ -117,12 +118,13 @@ class Classer:
                         self.browser.switch_to.frame(duoFrame)
                         self.browser.find_element_by_xpath(self.elems["2faButton"]).click()
 
-                        print("CHECK YOUR PHONE FOR PUSH NOTIF.")
+                        print("*************** CHECK YOUR PHONE FOR PUSH NOTIF *************************")
 
                         # While not yet past 2fa page
                         while(len(self.browser.find_elements_by_xpath(self.elems['regClass'])) == 0):
                             time.sleep(1)
-                        print("Got passed 2fa")
+                        print("2fa Successful. Loging in...")
+                        print("*************************************************************************")
 
 
                     else:
@@ -131,8 +133,8 @@ class Classer:
                     
                     self.twofa = True
                 except:
-                    # TODO better bad pass and user check
                     print("Whoops. no 2fa. Ignore if you've already done 2fa this specific run of the program")
+                    print("")
                     pass
                 
 

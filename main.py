@@ -204,7 +204,8 @@ def main():
             classItem.setCRNs(crns)
             classItem.updateRemainingSpots(openspots)
 
-    print("CLASS DATA INITIALIZED!")
+    print("---------------CLASS DATA INITIALIZED!-------------------")
+    print()
 
 
     # This part checks if registration is already open.
