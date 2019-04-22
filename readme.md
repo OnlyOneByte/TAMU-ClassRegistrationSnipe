@@ -2,7 +2,7 @@
 # Must have Chrome and would also recommend Anaconda ver of Python 3.
 
 yeeeeeee hawwwwwwww
-last officially confirmed working 2018-11-29.
+last officially confirmed working 2019-04-22.
 I'll maintain this for as long as I'm a student at TAMU and I have to use their godforsaken registration system.
 
 # The INI file is laid out as follows.
