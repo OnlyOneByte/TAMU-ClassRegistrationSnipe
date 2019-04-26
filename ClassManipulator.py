@@ -35,7 +35,7 @@ class Classer:
             'regClass': "//*[@title='Registration']",
             'termSubmit': "//input[@type='submit' and @value='Submit']",
             '2fa': "//iframe[@id='duo_iframe']",
-            '2faButton': "/html/body/div[1]/div[1]/div/form/fieldset[2]/div[1]/button",
+            '2faButton': "/html/body/div[1]/div[1]/div/form/div[1]/fieldset/div[1]/button",
             'addedCoursesTable' : "/html/body/div[3]/form/table[1]/tbody/tr",
             'dropClassDropDown' : "//*[@id='action_id2']",
             'classChangeSubmit': "/html/body/div[3]/form/input[19]",
@@ -110,6 +110,7 @@ class Classer:
                 try:
                     duoFrame = self.browser.find_element_by_xpath(self.elems["2fa"])
                     usePush = True
+
                     if(usePush):
                         self.browser.switch_to.frame(duoFrame)
                         self.browser.find_element_by_xpath(self.elems["2faButton"]).click()

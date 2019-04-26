@@ -15,7 +15,6 @@ The safety feature doesn't apply to straight additions because those you can do 
 """
 
 # TODO: Logged out checker
-# TODO: Ability to 'time snipe' - tell it your registration time and it will snipe classes down to the millisecond.
 # TODO: Add caching so that this step only has to be run when ini file is changed.
 # TODO: Add ability to pause program
 # TODO: Allow for variable registration terms
@@ -181,7 +180,7 @@ def beforeOpenLoop():
 def main(): 
     # Opens configuration file
     global configs
-    configs = ConfigReader("config.ini")
+    configs = ConfigReader("config_angelo.ini")
     # Make sure to change this to whatever your config file is
 
     # Opens the browser
