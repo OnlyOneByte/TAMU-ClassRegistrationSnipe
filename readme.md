@@ -1,5 +1,6 @@
 # Check the config.ini file to see how to use it.
 # Must have Chrome and would also recommend Anaconda ver of Python 3.
+#### NO LONGER WORKS
 
 yeeeeeee hawwwwwwww
 last officially confirmed working 2019-04-22.
