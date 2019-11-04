@@ -1,10 +1,7 @@
 # Check the config.ini file to see how to use it.
 # Must have Chrome and would also recommend Anaconda ver of Python 3.
-#### NO LONGER WORKS
+# NO LONGER WORKS
 
-yeeeeeee hawwwwwwww
-last officially confirmed working 2019-04-22.
-I'll maintain this for as long as I'm a student at TAMU and I have to use their godforsaken registration system.
 
 # The INI file is laid out as follows.
 line 1: username to howdy\
